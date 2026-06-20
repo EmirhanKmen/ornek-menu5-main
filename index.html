@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="tr" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#15170f">
+    <meta name="description" content="Şifa Konağı · Anne eli değmiş gibi. Çorbalar, paça çeşitleri, ev yemekleri ve geleneksel tatlılar.">
+    <title>Şifa Konağı · Lezzet Durağınız</title>
+
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%F0%9F%8D%B2%3C/text%3E%3C/svg%3E">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,500;0,600;1,400;1,500&family=Manrope:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <style>
+        /* ============================================================
+           Şifa Konağı · SAKİN tek-sayfa menü
+           Konsept: huzurlu akış, yaprak ayraçlar, yavaş yumuşak animasyon
+           ============================================================ */
+        :root {
+            --topbar-h: 60px;
+            --bg: #f4f1e8; --bg-2: #ebe6d6; --surface: #fdfbf4; --line: #e2dcc8;
+            --ink: #25271d; --ink-2: #575a45; --ink-3: #8c8d72;
+            --accent: #6e8b3d; --accent-2: #566f2c; --on-accent: #f7faef; --price: #6c8a3a;
+            --shadow: 0 18px 50px -28px rgba(50,60,20,.4); --shadow-sm: 0 8px 24px -16px rgba(50,60,20,.35);
+            --serif: "EB Garamond", Georgia, serif;
+            --sans: "Manrope", system-ui, -apple-system, sans-serif;
+        }
+        html[data-theme="dark"] {
+            --bg: #15170f; --bg-2: #1c1f14; --surface: #1f2216; --line: #313425;
+            --ink: #eef0e0; --ink-2: #c2c6ab; --ink-3: #888b6f;
+            --accent: #a3c163; --accent-2: #88a54a; --on-accent: #15170f; --price: #b0cd70;
+            --shadow: 0 20px 55px -28px rgba(0,0,0,.7); --shadow-sm: 0 10px 28px -18px rgba(0,0,0,.65);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: var(--sans); background: var(--bg); color: var(--ink); line-height: 1.6; -webkit-font-smoothing: antialiased; overflow-x: hidden; transition: background .5s ease, color .5s ease; }
+        ::selection { background: var(--accent); color: var(--on-accent); }
+
+        .splash { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; background: var(--bg); transition: opacity .6s ease, visibility .6s ease; }
+        .splash.gone { opacity: 0; visibility: hidden; }
+        .splash-mark { display: flex; flex-direction: column; align-items: center; gap: .4rem; }
+        .splash-cup { font-size: 2.6rem; animation: breathe 2.4s ease-in-out infinite; }
+        .splash-name { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; letter-spacing: .04em; color: var(--accent); }
+        @keyframes breathe { 0%,100% { transform: scale(1); opacity: .85; } 50% { transform: scale(1.06); opacity: 1; } }
+
+        .topbar { position: sticky; top: 0; z-index: 90; height: var(--topbar-h); display: flex; align-items: center; justify-content: space-between; padding: 0 clamp(1rem,4vw,2.5rem); background: color-mix(in srgb, var(--bg) 84%, transparent); backdrop-filter: blur(14px) saturate(140%); -webkit-backdrop-filter: blur(14px) saturate(140%); border-bottom: 1px solid var(--line); }
+        .brand { display: flex; align-items: center; gap: .55rem; text-decoration: none; color: var(--ink); }
+        .brand-cup { font-size: 1.3rem; }
+        .brand-text { font-family: var(--serif); font-weight: 600; font-size: 1.4rem; line-height: 1; display: flex; flex-direction: column; }
+        .brand-text small { font-family: var(--sans); font-weight: 500; font-size: .54rem; letter-spacing: .16em; text-transform: uppercase; color: var(--ink-3); margin-top: 4px; }
+        .theme-toggle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink); display: grid; place-items: center; cursor: pointer; transition: transform .2s ease, border-color .2s ease; }
+        .theme-toggle:hover { border-color: var(--accent); transform: translateY(-1px); }
+        .theme-toggle:active { transform: scale(.94); }
+        .theme-toggle svg { width: 19px; height: 19px; }
+        .theme-toggle .ico-moon { display: none; }
+        html[data-theme="dark"] .theme-toggle .ico-sun { display: none; }
+        html[data-theme="dark"] .theme-toggle .ico-moon { display: block; }
+
+        .hero { position: relative; min-height: clamp(420px,72vh,600px); display: grid; align-items: center; padding: clamp(2.5rem,7vw,5rem) clamp(1.25rem,5vw,4rem); background: linear-gradient(180deg, rgba(16,18,10,.5), rgba(16,18,10,.74)), url("https://images.pexels.com/photos/1640774/pexels-photo-1640774.jpeg?auto=compress&cs=tinysrgb&w=1600") center/cover no-repeat fixed; color: #f3f4e6; text-align: center; isolation: isolate; }
+        .hero::after { content: ""; position: absolute; inset: 0; z-index: -1; background: radial-gradient(120% 80% at 50% 115%, rgba(110,139,61,.4), transparent 60%); }
+        .hero-inner { max-width: 640px; margin: 0 auto; }
+        .sprig { width: 70px; height: auto; color: #cdd9a8; margin: 0 auto 1rem; display: block; }
+        .hero-eyebrow { font-size: .72rem; letter-spacing: .3em; text-transform: uppercase; color: #cdd9a8; margin-bottom: .9rem; }
+        .hero-title { font-family: var(--serif); font-weight: 600; font-size: clamp(2.6rem,9vw,4.6rem); line-height: 1.04; letter-spacing: -.01em; text-shadow: 0 2px 30px rgba(0,0,0,.4); }
+        .hero-sub { margin: 1.1rem auto 0; max-width: 42ch; font-style: italic; font-family: var(--serif); font-size: clamp(1.05rem,3vw,1.3rem); color: #e7ebd4; }
+        .hero-cta { display: inline-block; margin-top: 1.9rem; padding: .85rem 2rem; border-radius: 999px; background: var(--accent); color: var(--on-accent); font-family: var(--sans); font-weight: 600; font-size: .92rem; text-decoration: none; box-shadow: 0 14px 34px -14px rgba(110,139,61,.85); transition: transform .25s ease, background .25s ease; }
+        .hero-cta:hover { background: var(--accent-2); transform: translateY(-2px); }
+
+        .menu { max-width: 640px; margin: 0 auto; padding: clamp(3rem,8vw,5rem) clamp(1.25rem,6vw,2rem) 1rem; }
+        .leaf-divider { display: flex; align-items: center; justify-content: center; gap: 1rem; color: var(--accent); margin: clamp(2.5rem,7vw,4rem) 0; opacity: .9; }
+        .leaf-divider:first-child { margin-top: 0; }
+        .leaf-divider .ln { width: clamp(40px,18vw,110px); height: 1px; background: var(--line); }
+        .leaf-divider .sprig { width: 40px; margin: 0; }
+
+        .cat { text-align: center; }
+        .cat-title { font-family: var(--serif); font-weight: 600; font-size: clamp(1.9rem,6vw,2.6rem); color: var(--ink); margin-bottom: .3rem; }
+        .cat-note { font-family: var(--serif); font-style: italic; color: var(--ink-3); font-size: 1rem; margin-bottom: 1.8rem; }
+        .dish { text-align: center; padding: 1.4rem 0; opacity: 0; transform: translateY(16px); }
+        .dish.in { animation: soft 0.9s cubic-bezier(.22,1,.36,1) forwards; }
+        @keyframes soft { to { opacity: 1; transform: none; } }
+        .dish h3 { font-family: var(--serif); font-weight: 600; font-size: 1.45rem; color: var(--ink); }
+        .dish .desc { font-family: var(--serif); font-style: italic; color: var(--ink-2); font-size: 1.02rem; margin: .3rem 0 .55rem; }
+        .dish .price { display: inline-block; font-family: var(--serif); font-weight: 600; font-size: 1.25rem; color: var(--price); }
+        .dish .price::before, .dish .price::after { content: "·"; color: var(--accent); margin: 0 .6rem; opacity: .6; }
+
+        .story { max-width: 640px; margin: 0 auto; padding: 0 clamp(1.25rem,6vw,2rem); }
+        .story-card { text-align: center; padding: clamp(2rem,6vw,3rem) clamp(1.2rem,5vw,2rem); background: linear-gradient(160deg, color-mix(in srgb, var(--accent) 10%, var(--surface)), var(--surface)); border: 1px solid var(--line); border-radius: 22px; box-shadow: var(--shadow-sm); }
+        .story-card .sprig { width: 54px; margin: 0 auto 1rem; }
+        .story-card h2 { font-family: var(--serif); font-weight: 600; font-size: clamp(1.8rem,5.5vw,2.4rem); color: var(--ink); margin-bottom: .9rem; }
+        .story-card p { font-family: var(--serif); font-size: 1.12rem; line-height: 1.85; color: var(--ink-2); max-width: 52ch; margin: 0 auto; }
+
+        .footer { margin-top: clamp(3rem,8vw,5rem); background: var(--bg-2); border-top: 1px solid var(--line); padding: clamp(2.5rem,6vw,3.5rem) clamp(1.25rem,5vw,3rem) 2rem; text-align: center; }
+        .footer .logo-text { font-family: var(--serif); font-size: 1.9rem; font-weight: 600; color: var(--ink); }
+        .footer .tag { font-family: var(--serif); font-style: italic; color: var(--ink-2); font-size: 1.05rem; margin-top: .3rem; }
+        .social { display: flex; justify-content: center; gap: .6rem; margin: 1.5rem 0; }
+        .social a { width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--line); background: var(--surface); color: var(--ink-2); display: grid; place-items: center; transition: all .22s ease; }
+        .social a:hover { color: var(--on-accent); background: var(--accent); border-color: var(--accent); transform: translateY(-2px); }
+        .social svg { width: 18px; height: 18px; }
+        .copyright { color: var(--ink-3); font-size: .8rem; margin-top: .4rem; }
+
+        .scrolltop { position: fixed; right: 1.1rem; bottom: 1.1rem; z-index: 70; width: 46px; height: 46px; border-radius: 50%; border: none; background: var(--accent); color: var(--on-accent); display: grid; place-items: center; cursor: pointer; box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .3s ease, transform .3s ease, background .2s ease; }
+        .scrolltop.show { opacity: 1; visibility: visible; transform: none; }
+        .scrolltop:hover { background: var(--accent-2); }
+        .scrolltop svg { width: 22px; height: 22px; }
+
+        @media (max-width: 600px) { :root { --topbar-h: 54px; } .hero { background-attachment: scroll; min-height: 64vh; } }
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+            .splash-cup { animation: none; }
+            .dish { opacity: 1; transform: none; animation: none !important; }
+        }
+    </style>
+    <script>
+        (function () { try { var t = localStorage.getItem("sk-theme"); if (!t) t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"; document.documentElement.setAttribute("data-theme", t); } catch (e) {} })();
+    </script>
+</head>
+<body>
+
+    <div class="splash" id="splash" aria-hidden="true">
+        <div class="splash-mark"><span class="splash-cup">🍲</span><span class="splash-name">Şifa Konağı</span></div>
+    </div>
+
+    <header class="topbar">
+        <a href="#" class="brand"><span class="brand-cup">🍲</span><span class="brand-text">Şifa Konağı<small>Lezzet Durağınız</small></span></a>
+        <button class="theme-toggle" id="themeToggle" aria-label="Açık / koyu tema">
+            <svg class="ico-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+            <svg class="ico-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+        </button>
+    </header>
+
+    <section class="hero">
+        <div class="hero-inner">
+            <svg class="sprig" viewBox="0 0 80 28" fill="currentColor" aria-hidden="true"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg>
+            <p class="hero-eyebrow">Geleneksel · Şifalı · Ev Yapımı</p>
+            <h1 class="hero-title">Anne Eli Değmiş Gibi</h1>
+            <p class="hero-sub">Geleneksel lezzetlerin ve şifanın buluştuğu eşsiz adres.</p>
+            <a href="#menu" class="hero-cta">Menümüzü Keşfedin</a>
+        </div>
+    </section>
+
+    <main class="menu" id="menu">
+
+        <div class="leaf-divider" aria-hidden="true"><span class="ln"></span><svg class="sprig" viewBox="0 0 80 28" fill="currentColor"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg><span class="ln"></span></div>
+
+        <section class="cat">
+            <h2 class="cat-title">Çorbalar</h2>
+            <p class="cat-note">sıcacık, şifalı başlangıçlar</p>
+            <div class="dish"><h3>Mercimek Çorbası</h3><p class="desc">Tereyağlı, naneli sos ile</p><span class="price">45₺</span></div>
+            <div class="dish"><h3>Ezogelin Çorbası</h3><p class="desc">Acılı veya acısız</p><span class="price">45₺</span></div>
+        </section>
+
+        <div class="leaf-divider" aria-hidden="true"><span class="ln"></span><svg class="sprig" viewBox="0 0 80 28" fill="currentColor"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg><span class="ln"></span></div>
+
+        <section class="cat">
+            <h2 class="cat-title">Paça Çeşitleri</h2>
+            <p class="cat-note">ustaların gizli tarifleriyle</p>
+            <div class="dish"><h3>Kelle Paça (Beyinli)</h3><p class="desc">Limon ve taze maydanoz ile</p><span class="price">110₺</span></div>
+            <div class="dish"><h3>Damardan Tuzlama</h3><p class="desc">Gurmeler için özel</p><span class="price">120₺</span></div>
+        </section>
+
+        <div class="leaf-divider" aria-hidden="true"><span class="ln"></span><svg class="sprig" viewBox="0 0 80 28" fill="currentColor"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg><span class="ln"></span></div>
+
+        <section class="cat">
+            <h2 class="cat-title">Ev Yemekleri</h2>
+            <p class="cat-note">anne evinin sıcaklığında</p>
+            <div class="dish"><h3>Kuru Fasulye (Etli)</h3><p class="desc">Pirinç pilavı ve turşu ile</p><span class="price">90₺</span></div>
+            <div class="dish"><h3>Tas Kebabı</h3><p class="desc">Dana etinden, lokum gibi</p><span class="price">125₺</span></div>
+        </section>
+
+        <div class="leaf-divider" aria-hidden="true"><span class="ln"></span><svg class="sprig" viewBox="0 0 80 28" fill="currentColor"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg><span class="ln"></span></div>
+
+        <section class="cat">
+            <h2 class="cat-title">Tatlılar</h2>
+            <p class="cat-note">tatlı bir kapanış</p>
+            <div class="dish"><h3>Fırın Sütlaç</h3><p class="desc">Fındık parçacıkları ile</p><span class="price">55₺</span></div>
+        </section>
+
+    </main>
+
+    <section class="story" id="about">
+        <div class="story-card">
+            <svg class="sprig" viewBox="0 0 80 28" fill="currentColor" aria-hidden="true"><path d="M40 26c0-7 4-12 14-15-7 0-12 1-16 5 .5-6 3-10 9-13-6 1-10 4-12 9-2-5-6-8-12-9 6 3 8.5 7 9 13-4-4-9-5-16-5 10 3 14 8 14 15h10z"/></svg>
+            <h2>Bizim Hikayemiz</h2>
+            <p>Şifa Konağı olarak yıllardır en taze malzemelerle, geleneksel tariflere sadık kalarak hizmet veriyoruz. Amacımız, her misafirimize anne evinin sıcaklığını ve lezzetini hissettirmek. Çorbalarımız ve paça çeşitlerimiz, ustalarımızın gizli tarifleriyle hazırlanır ve birer şifa kaynağıdır.</p>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <p class="logo-text">Şifa Konağı</p>
+        <p class="tag">Anne eli değmiş gibi</p>
+        <div class="social">
+            <a href="#" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2.2c3.2 0 3.6 0 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.42.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s0 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.42.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58 0-4.85-.07c-1.17-.05-1.8-.25-2.23-.41a3.7 3.7 0 0 1-1.38-.9 3.7 3.7 0 0 1-.9-1.38c-.16-.42-.36-1.06-.41-2.23C2.21 15.58 2.2 15.2 2.2 12s0-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.42-.16 1.06-.36 2.23-.41C8.42 2.21 8.8 2.2 12 2.2zm0 3.06A4.94 4.94 0 1 0 12 17a4.94 4.94 0 0 0 0-9.88zm0 8.14A3.2 3.2 0 1 1 12 8.8a3.2 3.2 0 0 1 0 6.4zm6.3-8.34a1.15 1.15 0 1 1-2.3 0 1.15 1.15 0 0 1 2.3 0z"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a>
+            <a href="#" aria-label="WhatsApp"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M.06 24l1.7-6.2a11.9 11.9 0 0 1-1.6-6A11.9 11.9 0 0 1 12 0a11.9 11.9 0 0 1 8.5 3.5A11.9 11.9 0 0 1 24 12a11.9 11.9 0 0 1-12 11.9 11.9 11.9 0 0 1-5.7-1.45L.06 24zM6.6 20.1l.36.22a9.9 9.9 0 0 0 5.05 1.38 9.9 9.9 0 0 0 9.9-9.9 9.9 9.9 0 0 0-9.9-9.9 9.9 9.9 0 0 0-9.9 9.9 9.9 9.9 0 0 0 1.52 5.3l.24.38-1 3.66 3.73-1.04zM17.5 14.3c-.13-.22-.48-.35-1-.6-.52-.27-3.06-1.51-3.54-1.68-.47-.18-.82-.27-1.16.26-.35.52-1.34 1.67-1.64 2.02-.3.34-.6.39-1.12.13-.52-.26-2.2-.81-4.18-2.58-1.55-1.38-2.59-3.08-2.9-3.6-.3-.53-.03-.81.23-1.07.24-.23.52-.6.78-.91.26-.3.35-.52.52-.87.18-.35.09-.65-.04-.91-.13-.26-1.16-2.8-1.6-3.83-.42-1-.84-.87-1.16-.88l-1-.02c-.34 0-.9.13-1.36.65-.47.52-1.78 1.74-1.78 4.25 0 2.5 1.82 4.92 2.08 5.27.26.34 3.59 5.47 8.7 7.67 1.21.52 2.16.83 2.9 1.07 1.22.39 2.33.33 3.2.2.98-.14 3.01-1.23 3.43-2.42.43-1.19.43-2.2.3-2.42z"/></svg></a>
+        </div>
+        <p class="copyright">© <span id="year"></span> Şifa Konağı. Tüm hakları saklıdır.</p>
+    </footer>
+
+    <button id="scrollTop" class="scrolltop" aria-label="Yukarı çık"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m18 15-6-6-6 6"/></svg></button>
+
+    <script>
+        const prefersReduced = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const root = document.documentElement;
+
+        document.getElementById("themeToggle").addEventListener("click", () => {
+            const next = root.getAttribute("data-theme") === "dark" ? "light" : "dark";
+            root.setAttribute("data-theme", next);
+            try { localStorage.setItem("sk-theme", next); } catch (e) {}
+            const meta = document.querySelector('meta[name="theme-color"]');
+            if (meta) meta.setAttribute("content", next === "dark" ? "#15170f" : "#f4f1e8");
+        });
+
+        const dishes = document.querySelectorAll(".dish");
+        if (prefersReduced) { dishes.forEach(d => d.classList.add("in")); }
+        else {
+            const io = new IntersectionObserver((es) => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); } }), { threshold: 0.2, rootMargin: "0px 0px -8% 0px" });
+            dishes.forEach(d => io.observe(d));
+        }
+
+        const stop = document.getElementById("scrollTop");
+        new IntersectionObserver(([e]) => stop.classList.toggle("show", !e.isIntersecting), { rootMargin: "-40px" }).observe(document.querySelector(".hero"));
+        stop.addEventListener("click", () => scrollTo({ top: 0, behavior: prefersReduced ? "auto" : "smooth" }));
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+        addEventListener("load", () => setTimeout(() => document.getElementById("splash").classList.add("gone"), 300));
+    </script>
+</body>
+</html>
